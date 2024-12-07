@@ -30,9 +30,7 @@ class XMLModifier(QWidget):
         # Load method (always visible)
         self.load_method_combo = QComboBox()
         self.load_method_combo.addItems(["ImportAddressHook", "OnThreadAttach", "OnProcessAttach"])
-        self.load_method_combo.setToolTip(
-            "Load method for xSE plugins, 'ImportAddressHook' by default. Don't change unless required."
-        )
+        self.load_method_combo.setToolTip("Load method for xSE plugins, 'ImportAddressHook' by default. Don't change unless required.")
         self.load_method_combo.setEnabled(False)
         self.form_layout.addRow("Load Method:", self.load_method_combo)
 
@@ -46,19 +44,21 @@ class XMLModifier(QWidget):
 
         self.import_library_label = QLabel("ImportAddressHook Library Name:")
         self.import_library_edit = QLineEdit()
-        self.import_library_edit.setToolTip("The name of a DLL that contains the function to hook. DO NOT CHANGE unless you know what you're doing.")
+        self.import_library_edit.setToolTip(
+            "The name of a DLL that contains the function to hook. DO NOT CHANGE unless you know what you're doing."
+        )
         self.form_layout.addRow(self.import_library_label, self.import_library_edit)
 
         self.import_function_label = QLabel("ImportAddressHook Function Name:")
         self.import_function_edit = QLineEdit()
-        self.import_function_edit.setToolTip("The function to hook. Must be exported from the specified DLL. DO NOT CHANGE unless you know what you're doing.")
+        self.import_function_edit.setToolTip(
+            "The function to hook. Must be exported from the specified DLL. DO NOT CHANGE unless you know what you're doing."
+        )
         self.form_layout.addRow(self.import_function_label, self.import_function_edit)
 
         self.thread_number_label = QLabel("OnThreadAttach Thread Number:")
         self.thread_number_edit = QLineEdit()
-        self.thread_number_edit.setToolTip(
-            "Specifies the thread number that will trigger the plugin loading. Must be a positive number."
-        )
+        self.thread_number_edit.setToolTip("Specifies the thread number that will trigger the plugin loading. Must be a positive number.")
         self.form_layout.addRow(self.thread_number_label, self.thread_number_edit)
 
         self.install_exception_label = QLabel("Install Exception Handler:")
@@ -144,9 +144,7 @@ class XMLModifier(QWidget):
         allow_combo = QComboBox()
         allow_combo.addItems(["true", "false"])
         allow_combo.setCurrentText("true" if allow else "false")
-        allow_combo.setToolTip(
-            "Only processes in this list with 'Allow' set to 'true' will be allowed to preload."
-        )
+        allow_combo.setToolTip("Only processes in this list with 'Allow' set to 'true' will be allowed to preload.")
 
         process_layout.addWidget(name_label)
         process_layout.addWidget(allow_combo)
@@ -158,9 +156,17 @@ class XMLModifier(QWidget):
     def set_widgets_enabled(self, enabled: bool) -> None:
         """Enable or disable all input widgets."""
         for widget in [
-            self.load_method_combo, self.original_library_edit, self.import_library_edit, self.import_function_edit,
-            self.thread_number_edit, self.install_exception_combo, self.keep_exception_combo,
-            self.load_delay_edit, self.hook_delay_edit, self.save_button, self.save_as_button
+            self.load_method_combo,
+            self.original_library_edit,
+            self.import_library_edit,
+            self.import_function_edit,
+            self.thread_number_edit,
+            self.install_exception_combo,
+            self.keep_exception_combo,
+            self.load_delay_edit,
+            self.hook_delay_edit,
+            self.save_button,
+            self.save_as_button,
         ]:
             widget.setEnabled(enabled)
         # Also enable or disable all process items
@@ -173,10 +179,23 @@ class XMLModifier(QWidget):
 
         # Hide or show widgets
         for widget in [
-            self.original_library_label, self.original_library_edit, self.import_library_label, self.import_library_edit,
-            self.import_function_label, self.import_function_edit, self.thread_number_label, self.thread_number_edit,
-            self.install_exception_label, self.install_exception_combo, self.keep_exception_label, self.keep_exception_combo,
-            self.load_delay_label, self.load_delay_edit, self.hook_delay_label, self.hook_delay_edit, self.processes_label
+            self.original_library_label,
+            self.original_library_edit,
+            self.import_library_label,
+            self.import_library_edit,
+            self.import_function_label,
+            self.import_function_edit,
+            self.thread_number_label,
+            self.thread_number_edit,
+            self.install_exception_label,
+            self.install_exception_combo,
+            self.keep_exception_label,
+            self.keep_exception_combo,
+            self.load_delay_label,
+            self.load_delay_edit,
+            self.hook_delay_label,
+            self.hook_delay_edit,
+            self.processes_label,
         ]:
             widget.setVisible(is_checked)
 
@@ -321,6 +340,7 @@ class XMLModifier(QWidget):
                 item = self.xml_tree.find(f".//Processes/Item[@Name='{name_label.text()}']")
                 if item is not None:
                     item.attrib["Allow"] = combo.currentText()
+
 
 if __name__ == "__main__":
     app = QApplication([])
